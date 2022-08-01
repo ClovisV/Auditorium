@@ -6,25 +6,36 @@ public class BulletCreation : MonoBehaviour
 {
     [SerializeField] GameObject _bulletPrefab;
     [SerializeField] float _spawnCooldown;
+    [SerializeField] float _circleSize;
+    // [SerializeField] Vector2 _minMax;
+    // [SerializeField] float _min;
+    // [SerializeField] float _max;
 
     float _lastShoot;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
+
+        // Methode 1
+        // float rx = Random.Range(_min, _max);
+        // float ry = Random.Range(_min, _max);
+        // Vector3 randomDirection = new Vector2(rx, ry);
+
+        //Methode 2
+        Vector3 randomDirection = Random.insideUnitCircle;
+
         if (Time.time > _lastShoot + _spawnCooldown)
         {
-            float rx = Random.Range(-1f, 1f);
-            float ry = Random.Range(-1f, 1f);
-            Vector3 randomDirection = new Vector2(rx, ry);
             _lastShoot = Time.time;
             GameObject.Instantiate(_bulletPrefab, transform.position + randomDirection, transform.rotation);
         }
+
+    }
+
+    // Draw a green sphere for the gameObject
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(transform.position, _circleSize);
     }
 }
