@@ -8,16 +8,41 @@ public class Bullet : MonoBehaviour
     [SerializeField] Rigidbody2D _rb;
     [SerializeField] Vector2 _direction;
     [SerializeField] float _speed;
+    [SerializeField] float _lifespan;
 
-    // Start is called before the first frame update
+    float _remainingTime; // Methode deltaTime
+    //float _futurDestroyDate; // Methode Time.time
+
     void Start()
     {
         _rb.velocity = _direction * _speed;
+
+        // Methode deltaTime
+        _remainingTime = _lifespan;
+
+        // Methode Time.time
+        //_futurDestroyDate = Time.time + _lifespan;
+
     }
 
-    // Update is called once per frame
     void Update()
+    {
+
+        // Methode deltaTime
+        _remainingTime -= Time.deltaTime;
+        if (_remainingTime < 0)
+        {
+            GameObject.Destroy(gameObject);
+        }
+
+        // Methode Time.time
+        //if (Time.time > _futurDestroyDate) {}
+
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
     {
         
     }
+
 }
